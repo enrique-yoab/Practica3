@@ -1,18 +1,26 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <time.h>
 
-struct proceso{
-    char nombre[];
+typedef struct nodo{
+    char nombre;
     int identificador;
     int instruccion;
-    struct proceso *siguiente; 
-}
+    struct nodo *siguiente; 
+} Nodo;
 
-struct proceso *agregar (struct proceso *cola, char *name,int id_proceso,int numInstr){
+Nodo *agregarValores (Nodo *cola, char name,int id_proceso,int numInstr){
+    srand(time(NULL));
+    Nodo *temporal = calloc(sizeof(Nodo),1);
+    temporal->nombre=name;
+    temporal->identificador=id_proceso;
+    temporal->instruccion=rand()%11 + 20;
     if(cola != NULL){
-
+        while(cola->siguiente != NULL){
+            cola=cola->siguiente;
+        }
     }else{
-
+        return temporal;
     }
 }
 
