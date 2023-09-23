@@ -1,4 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-main(void)
+struct Nodo{
+    char nombre;
+    struct nodo *siguiente; 
+}
