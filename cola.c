@@ -53,5 +53,7 @@ char pop(Cola *queue){
 
 int generarID(){
     int num;
-    srand(time(NULL))
+    srand(time(NULL)+ clock());
+    num = rand() % 900 + 100;
+    return num;
 }
