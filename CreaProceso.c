@@ -7,6 +7,7 @@ typedef struct proceso{    // esta es la estructura del proceso o los componente
     char nombre[30];
     int identificador;
     int instruccion;
+    int instruccionRestante;
     int posicion;
     struct proceso *siguiente; 
 } Proceso;
@@ -25,6 +26,7 @@ Proceso *agregarProceso(Cola *cola,int numProceso){   //agrega el proceso a la c
     nuevo_proceso->posicion=numProceso;
     nuevo_proceso->identificador=rand()%1000;
     nuevo_proceso->instruccion=10 + rand()%(31-10); //numero de instrucciones dado por el programa entre 10 y 30
+    nuevo_proceso->instruccionRestante = nuevo_proceso->instruccion;
     nuevo_proceso->siguiente=NULL;   //se inicializa el puntero siguiente en NULL
 
     printf("Ingrese el nombre del proceso %d: ",numProceso);
@@ -59,6 +61,27 @@ void visualizarCola(Cola *cola){
         printf("ID: %d , Nombre: %s , Numero de instrucciones: %d\n",temp->identificador,temp->nombre,temp->instruccion);
         temp = temp->siguiente;
     }
+}
+
+Proceso *verProceso(Cola *cola){
+    int aux;
+    aux = (cola->inicio->instruccion) - (cola->inicio->instruccionRestante);
+    printf("Proceso %s\n", cola->inicio->nombre);
+    printf("ID: %d\n", cola->inicio->identificador);
+    printf("Instrucciones Totales: %d\n", cola->inicio->instruccion);
+    printf("Instrucciones ejecutadas: %d\n", aux);
+}
+
+Proceso *ejecutarProceso(Cola *cola){
+    int aux;
+    if (cola->inicio){
+        printf("Cola vacia");
+    }else{
+        aux = cola->inicio->instruccionRestante - 5;
+        cola->inicio->instruccionRestante = aux;
+    }
+    printf("Proceso %s se ha ejecutado \n", cola->inicio->nombre);
+    printf("Instrucciones restantes: %d", cola->inicio->instruccionRestante);
 }
 
 void main(){
