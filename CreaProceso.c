@@ -39,6 +39,17 @@ Proceso *agregarProceso(Cola *cola,int numProceso){   //agrega el proceso a la c
         cola->final=nuevo_proceso;
     }
 }
+
+Proceso *agregarCola(Cola *cola, Proceso *x){
+    if (!cola->inicio){
+        cola->inicio = x;
+        cola->final = x;
+    }else{
+        cola->final->siguiente = x;
+        cola->final = x;
+    }
+}
+
 Proceso *quitarProceso(Cola *cola){      //quita el proceso que se encuentra al inicio
     if(!cola->inicio){                 //si entra al if es que ya no hay ningun proceso
         return NULL;
@@ -72,7 +83,7 @@ Proceso *verProcesoActual(Cola *cola){ //Se muestra el proceso actual que es el 
     printf("Instrucciones ejecutadas: %d\n", aux);
 }
 
-Proceso *ejecutarProceso(Cola *cola){ //se ejecuta el proceso actual, el que esta al inicio de la cola
+void ejecutarProceso(Cola *cola){ //se ejecuta el proceso actual, el que esta al inicio de la cola
     int aux; //auxiliar para restar instrucciones
     if (!cola->inicio){ //validacion de una cola vacia
         printf("Cola vacia");
@@ -82,6 +93,15 @@ Proceso *ejecutarProceso(Cola *cola){ //se ejecuta el proceso actual, el que est
         printf("Proceso %s se ha ejecutado \n", cola->inicio->nombre); //Muestra el nombre del proceso ejecutadp
         printf("Instrucciones restantes: %d", cola->inicio->instruccionRestante); //Muestra las instrucciones restantes
     }
+}
+
+void procesoSiguiente(Cola *cola){
+    int opc;
+    Proceso *aux = (Proceso*)malloc(sizeof(Proceso));
+    aux = quitarProceso(cola);
+    //Asignacion de la cola de procesos generales, e/s, o interrupciones
+    printf("Proceso: %s retirado: ", aux->identificador);
+
 }
 
 void main(){
@@ -95,10 +115,13 @@ void main(){
         agregarProceso(&cola,i);
     }
     visualizarCola(&cola);
+    ejecutarProceso(&cola);
+    procesoSiguiente(&cola);
     while(cola.inicio){
         Proceso *proceso_actual=quitarProceso(&cola);
         printf("Proceso Ejecutado %d\n",proceso_actual->posicion);
         free(proceso_actual);
     }
+    
     printf("terminado\n");
 }
