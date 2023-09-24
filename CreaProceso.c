@@ -10,7 +10,7 @@ typedef struct proceso{    // esta es la estructura del proceso o los componente
     int posicion;
     struct proceso *siguiente; 
 } Proceso;
-typedef struct cola{
+typedef struct cola{   //estructura de la cola, inicio o final
     Proceso *inicio;
     Proceso *final;
 }Cola;
@@ -25,28 +25,28 @@ Proceso *agregarProceso(Cola *cola,int numProceso){   //agrega el proceso a la c
     nuevo_proceso->posicion=numProceso;
     nuevo_proceso->identificador=rand()%1000;
     nuevo_proceso->instruccion=10 + rand()%(31-10); //numero de instrucciones dado por el programa entre 10 y 30
-    nuevo_proceso->siguiente=NULL;
+    nuevo_proceso->siguiente=NULL;   //se inicializa el puntero siguiente en NULL
 
     printf("Ingrese el nombre del proceso %d: ",numProceso);
     scanf("%29s",nuevo_proceso->nombre); //limitar la entrada a 29 caracteres
-    if(!cola->inicio){
+    if(!cola->inicio){                 //entra al if si es el primer proceso en agregarse
         cola->inicio= nuevo_proceso;
         cola->final = nuevo_proceso;
-    }else{
+    }else{                              //entre en else si ya hay un proceso inicial
         cola->final->siguiente=nuevo_proceso;
         cola->final=nuevo_proceso;
     }
 }
-Proceso *quitarProceso(Cola *cola){
-    if(!cola->inicio){
+Proceso *quitarProceso(Cola *cola){      //quita el proceso que se encuentra al inicio
+    if(!cola->inicio){                 //si entra al if es que ya no hay ningun proceso
         return NULL;
     }
-    Proceso *proceso_removido=cola->inicio;
-    cola->inicio=cola->inicio->siguiente;
-    if(!cola->inicio){
+    Proceso *proceso_removido=cola->inicio;  //se crea un apuntador hacia el inicio de la cola
+    cola->inicio=cola->inicio->siguiente;   //movemos el puntero de la cola de inicio, al siguiente proceso.
+    if(!cola->inicio){             //entra al if si el proceso al que se movio  el puntero es el ultimo de la cola
         cola->final=NULL;
     }
-    return proceso_removido;
+    return proceso_removido;  //retorna el proceso que se quitara osea el que esta al inico de la cola
 }
 void visualizarCola(Cola *cola){
     Proceso *temp=cola->inicio;
