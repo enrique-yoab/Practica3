@@ -25,7 +25,7 @@ void push(Cola *queue, char nom){
         queue->tail = nuevo;
     }
     queue->tail->nom = nom;
-    queue->tail->id = id_process;
+    queue->tail->id = generarID();
     queue->tail->instr = rand() % 21 + 10;
     queue->tail->space = espacio[rand() % 4];
        
