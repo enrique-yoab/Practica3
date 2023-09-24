@@ -3,50 +3,42 @@
 #include <unistd.h>
 #include <time.h>
 
-typedef struct nodo{
-    char nombre;
+typedef struct proceso{    // esta es la estructura del proceso o los componentes que lo conforman
+    char nombre[30];
     int identificador;
     int instruccion;
     int posicion;
-    struct nodo *siguiente; 
-} Nodo;
+    struct proceso *siguiente; 
+} Proceso;
+typedef struct cola{
+    Proceso *inicio;
+    Proceso *final;
+}Cola;
 
-Nodo *agregarProceso(Nodo *cola, char name,int id_proceso,int numInstr,int num){
-    Nodo *temporal = calloc(sizeof(Nodo),1);
-    Nodo *pivote;
+void crearCola(Cola *cola){ //solo inicializa la cola de los procesos
+    cola->final=NULL;
+    cola->inicio=NULL;
+}
 
-    temporal->nombre=name;
-    temporal->identificador=id_proceso;
-    temporal->instruccion=numInstr;
-    temporal->posicion=num;
-    if(cola != NULL){
-        pivote=cola;
-        while(pivote->siguiente != NULL){
-            pivote=pivote->siguiente;
-        }
-        pivote->siguiente = temporal;
-        printf("Agregando proceso(%i) despues de proceso (%i) a la cola\n",temporal->posicion, pivote->posicion);
-        return cola; 
+Proceso *agregarProceso(Cola *cola,int id){
+    Proceso *nuevo_proceso = (Proceso*)malloc(sizeof(Proceso));
+    nuevo_proceso->posicion=id;
+    nuevo_proceso->identificador=10 + rand()%(31-10); //numero de instrucciones dado por el programa entre 10 y 30
+    nuevo_proceso->siguiente=NULL;
+
+    printf("Ingrese el nombre del proceso %d: ",id);
+    scanf("%29s",nuevo_proceso->nombre); //limitar la entrada a 29 caracteres
+    if(cola!=NULL){
+        cola->inicio= nuevo_proceso;
+        cola->final = nuevo_proceso;
     }else{
-        printf("Agregando proceso(%i) a la cola\n",temporal->posicion);
-        return temporal;
+        cola->final->siguiente=nuevo_proceso;
+        cola->final=nuevo_proceso;
     }
 }
 
+
 int main(){
-    Nodo *cola=NULL;
-    int aux; char temp[20];
-    srand(time(NULL));
-    printf("Nombre del proceso = ");
-    scanf("%s",&temp);
-    cola=agregarProceso(cola,temp,15236,rand()%11+20,1);
-    printf("\nel nombre es %s",cola->nombre);
-    /**printf("Ingrese el numero de procesos a realizar\n");
-    scanf("%d",&aux);
-    for(int i=1;i<=aux;i++){
-        printf("Nombre del proceso (%d)= ",i);
-        scanf("%s",&temp)
-        cola;
-    }**/
+   srand(time(NULL));
 
 }
