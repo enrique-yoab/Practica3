@@ -74,7 +74,7 @@ Proceso *verProceso(Cola *cola){
 
 Proceso *ejecutarProceso(Cola *cola){
     int aux;
-    if (cola->inicio){
+    if (!cola->inicio){
         printf("Cola vacia");
     }else{
         aux = cola->inicio->instruccionRestante - 5;
