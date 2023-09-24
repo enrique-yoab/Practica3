@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "cola.h"
 #include <time.h>
+#include "cola.h"
+#include "utilidades.h"
 
 int generarID(){
     int num;
@@ -54,10 +55,10 @@ void push(Cola *queue, char nom){
     queue->tail->id = generarID();
     printf("ID: %d\n", queue->tail->id);
     
-    queue->tail->instr = rand() % 21 + 10;
+    queue->tail->instr = numRandom(10, 30);
     printf("Inst: %d\n", queue->tail->instr);
 
-    queue->tail->space = espacio[rand() % 4];
+    queue->tail->space = espacio[numRandom(0, 4)];
     printf("Espacio: %d\n\n", queue->tail->space);
 }
 
