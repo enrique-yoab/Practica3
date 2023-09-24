@@ -1,20 +1,43 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "cola.h"
 #include <time.h>
 
-bool empty(Cola *queue){
-    return (queue->head == NULL);
+int generarID(){
+    int num;
+    srand(time(NULL));
+    num = rand() % 900 + 100;
+    return num;
+}
+
+void iniciaCola(Cola *queue){
+    queue->head = NULL;
+    queue->tail = NULL;
+}
+
+int empty(Cola *queue){
+    if (queue->head == NULL){
+        return 1;
+    }else{ 
+        return 0;
+    }
 }
 
 void push(Cola *queue, char nom){
+    srand(time(NULL));
+    Nodo *nuevo;
     int espacio [4] = {64, 128, 256, 512};
+
     //creacion y asignacion de memoria para el nuevo nodo
-    struct Nodo *nuevo = (Nodo)malloc(sizeof(struct Nodo));
-    //Asigna el ID del Proceso
-    nuevo->nom = id;
+    nuevo = (Nodo*)malloc(sizeof(Nodo));
+    
+    //Asigna el nombre del Proceso
+    nuevo->nom = nom;
+    
     //Ultimo Nodo, no tiene siguiente
     nuevo->next = NULL;
-    if (empty()){
+
+    if (empty(queue)){
         //Si esta vacia la cola head y tail apuntan a nuevo
         queue->head = nuevo;
         queue->tail = nuevo;
@@ -24,22 +47,28 @@ void push(Cola *queue, char nom){
         //Igualamos a tail al elemento nuevo
         queue->tail = nuevo;
     }
-    queue->tail->nom = nom;
-    queue->tail->id = generarID();
-    queue->tail->instr = rand() % 21 + 10;
-    queue->tail->space = espacio[rand() % 4];
-       
 
+    queue->tail->nom = nom;
+    printf("Insertado: %c\n", queue->tail->nom);
+    
+    queue->tail->id = generarID();
+    printf("ID: %d\n", queue->tail->id);
+    
+    queue->tail->instr = rand() % 21 + 10;
+    printf("Inst: %d\n", queue->tail->instr);
+
+    queue->tail->space = espacio[rand() % 4];
+    printf("Espacio: %d\n\n", queue->tail->space);
 }
 
 char pop(Cola *queue){
-    if (empty()){
+    if (empty(queue)){
         return -1;
     }else{
         char inf;
         //Auxiliar para recuperar informacion.
-        struct Nodo *aux = queue->head;
-        if (queue->head == tail){
+        Nodo *aux = queue->head;
+        if (queue->head == queue->tail){
             queue->head = NULL;
             queue->tail = NULL;
         }else{
@@ -51,9 +80,14 @@ char pop(Cola *queue){
     }
 }
 
-int generarID(){
-    int num;
-    srand(time(NULL)+ clock());
-    num = rand() % 900 + 100;
-    return num;
+void showHead(Cola *queue){
+    printf("Funcion mostrar\n\n");
+    if (empty(queue)){
+        printf("La cola esta vacia\n\n");
+    }else {
+        printf("Nombre: %c\n", queue->head->nom);
+        printf("ID: %d\n", queue->head->id);
+        printf("Instrucciones: %d\n", queue->head->instr);
+        printf("Espacio: %d\n\n", queue->head->space);
+    }    
 }

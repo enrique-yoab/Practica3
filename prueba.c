@@ -3,22 +3,16 @@
 #include <string.h>
 #include "cola.h"
 
-typedef struct Nodo
-{
-    char nom;
-    int id;
-    int instr;
-    int space;
-    struct Nodo *next;
-} Nodo;
-
-typedef struct Cola{
-    Nodo *head;
-    Nodo *tail;
-} Cola;
-
-
-
-void main(){
-
+int main(){
+    Cola procesos;
+    iniciaCola(&procesos);
+    push(&procesos, 'A');
+    push(&procesos,'B');
+    push(&procesos, 'C');
+    push(&procesos, 'D');
+    showHead(&procesos);
+    printf("Eliminado: %c \n", pop(&procesos));
+    printf("Eliminado: %c \n", pop(&procesos));
+    showHead(&procesos);
+    return 0;
 }
