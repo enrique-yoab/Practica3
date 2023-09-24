@@ -29,7 +29,7 @@ Proceso *agregarProceso(Cola *cola,int numProceso){   //agrega el proceso a la c
 
     printf("Ingrese el nombre del proceso %d: ",numProceso);
     scanf("%29s",nuevo_proceso->nombre); //limitar la entrada a 29 caracteres
-    if(cola->inicio!=NULL){
+    if(!cola->inicio){
         cola->inicio= nuevo_proceso;
         cola->final = nuevo_proceso;
     }else{
@@ -56,7 +56,7 @@ void visualizarCola(Cola *cola){
     }
     printf("Proceso %d en la cola:\n",temp->posicion);
     while(temp){
-        printf("ID: %d , Nombre: %s , Numero de instrucciones: %d",temp->identificador,temp->nombre,temp->instruccion);
+        printf("ID: %d , Nombre: %s , Numero de instrucciones: %d\n",temp->identificador,temp->nombre,temp->instruccion);
         temp = temp->siguiente;
     }
 }
@@ -71,4 +71,11 @@ void main(){
     for(int i=1;i<=numeroProc;i++){
         agregarProceso(&cola,i);
     }
+    visualizarCola(&cola);
+    while(cola.inicio){
+        Proceso *proceso_actual=quitarProceso(&cola);
+        printf("Proceso Ejecutado %d\n",proceso_actual->posicion);
+        free(proceso_actual);
+    }
+    printf("terminado\n");
 }
