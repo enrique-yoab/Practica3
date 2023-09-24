@@ -63,8 +63,8 @@ void visualizarCola(Cola *cola){
     }
 }
 
-Proceso *verProceso(Cola *cola){
-    int aux;
+Proceso *verProceso(Cola *cola){ //Se muestra el proceso actual que es el inicio de la cola
+    int aux; //auxiliar para el conteo de instrucciones
     aux = (cola->inicio->instruccion) - (cola->inicio->instruccionRestante);
     printf("Proceso %s\n", cola->inicio->nombre);
     printf("ID: %d\n", cola->inicio->identificador);
@@ -72,17 +72,16 @@ Proceso *verProceso(Cola *cola){
     printf("Instrucciones ejecutadas: %d\n", aux);
 }
 
-Proceso *ejecutarProceso(Cola *cola){
-    int aux;
-    if (!cola->inicio){
+Proceso *ejecutarProceso(Cola *cola){ //se ejecuta el proceso actual, el que esta al inicio de la cola
+    int aux; //auxiliar para restar instrucciones
+    if (!cola->inicio){ //validacion de una cola vacia
         printf("Cola vacia");
     }else{
         aux = cola->inicio->instruccionRestante - 5;
-        cola->inicio->instruccionRestante = aux;
-        printf("Proceso %s se ha ejecutado \n", cola->inicio->nombre);
-        printf("Instrucciones restantes: %d", cola->inicio->instruccionRestante);
+        cola->inicio->instruccionRestante = aux; //recuperacion del conteo de instrucciones restantes
+        printf("Proceso %s se ha ejecutado \n", cola->inicio->nombre); //Muestra el nombre del proceso ejecutadp
+        printf("Instrucciones restantes: %d", cola->inicio->instruccionRestante); //Muestra las instrucciones restantes
     }
-    
 }
 
 void main(){
