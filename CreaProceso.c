@@ -79,9 +79,10 @@ Proceso *ejecutarProceso(Cola *cola){
     }else{
         aux = cola->inicio->instruccionRestante - 5;
         cola->inicio->instruccionRestante = aux;
+        printf("Proceso %s se ha ejecutado \n", cola->inicio->nombre);
+        printf("Instrucciones restantes: %d", cola->inicio->instruccionRestante);
     }
-    printf("Proceso %s se ha ejecutado \n", cola->inicio->nombre);
-    printf("Instrucciones restantes: %d", cola->inicio->instruccionRestante);
+    
 }
 
 void main(){
