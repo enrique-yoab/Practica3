@@ -20,7 +20,7 @@ void crearCola(Cola *cola){ //solo inicializa la cola de los procesos
     cola->inicio=NULL;
 }
 
-Proceso *agregarProceso(Cola *cola,int id){
+Proceso *agregarProceso(Cola *cola,int id){   //agrega el proceso a la cola
     Proceso *nuevo_proceso = (Proceso*)malloc(sizeof(Proceso));
     nuevo_proceso->posicion=id;
     nuevo_proceso->identificador=10 + rand()%(31-10); //numero de instrucciones dado por el programa entre 10 y 30
