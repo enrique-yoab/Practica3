@@ -1,0 +1,12 @@
+void visualizarCola(Cola *cola, int numeroPr){
+    Proceso *temp=cola->inicio;
+    if(!temp){
+        printf("La cola esta vacia\n");
+        return;
+    }
+    printf("Proceso %d en la cola\n",temp->posicion);
+    while(temp->posicion!=numeroPr){
+        temp = temp->siguiente;
+    }
+    printf("El proceso %d, con ID: %d , Nombre: %s , Numero de instrucciones: %d\n",temp->posicion,temp->identificador,temp->nombre,temp->instruccion);
+}

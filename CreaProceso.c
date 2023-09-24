@@ -10,6 +10,7 @@ typedef struct proceso{    // esta es la estructura del proceso o los componente
     int instruccionRestante;
     int instruccionEjecutadas;
     int posicion;
+    int espacio;
     struct proceso *siguiente; 
 } Proceso;
 typedef struct cola_Procesos{   //estructura de la cola, inicio y final
@@ -17,19 +18,23 @@ typedef struct cola_Procesos{   //estructura de la cola, inicio y final
     Proceso *final;
 }Cola;
 
+
+
 void crearCola(Cola *cola){ //solo inicializa la cola de los procesos
     cola->final=NULL;
     cola->inicio=NULL;
 }
 
-Proceso *agregarProceso(Cola *cola,int numProceso){   //agrega el proceso a la cola
+Proceso *agregarProceso(Cola *cola,int numProceso,int *x,int y[]){   //agrega el proceso a la cola
     Proceso *nuevo_proceso = (Proceso*)malloc(sizeof(Proceso));
     nuevo_proceso->posicion=numProceso;
     nuevo_proceso->identificador=rand()%1000;
-    nuevo_proceso->instruccion=10 + rand()%(31-10); //numero de instrucciones dado por el programa entre 10 y 30
+    nuevo_proceso->instruccion=10 + rand()%(21); //numero de instrucciones dado por el programa entre 10 y 30
     nuevo_proceso->instruccionRestante = nuevo_proceso->instruccion;
     nuevo_proceso->siguiente=NULL;   //se inicializa el puntero siguiente en NULL
-
+    int aux1=rand()%4;   // valores entre 0 y 3
+    nuevo_proceso->espacio=y[aux1];  //se le asigna la memoria al proceso
+    *x=*x-y[aux1]; //se le resta le memoria del proceso a la memoria principal
     printf("Ingrese el nombre del proceso %d: ",numProceso);
     scanf("%29s",nuevo_proceso->nombre); //limitar la entrada a 29 caracteres
     if(!cola->inicio){                 //entra al if si es el primer proceso en agregarse
@@ -39,6 +44,7 @@ Proceso *agregarProceso(Cola *cola,int numProceso){   //agrega el proceso a la c
         cola->final->siguiente=nuevo_proceso;
         cola->final=nuevo_proceso;
     }
+    printf("\nLa memoria restante es %d\n",*x);
 }
 
 Proceso *quitarProceso(Cola *cola){      //quita el proceso que se encuentra al inicio
@@ -52,18 +58,6 @@ Proceso *quitarProceso(Cola *cola){      //quita el proceso que se encuentra al 
     }
     return proceso_removido;  //retorna el proceso que se quitara osea el que esta al inico de la cola
 }
-void visualizarCola(Cola *cola, int numeroPr){
-    Proceso *temp=cola->inicio;
-    if(!temp){
-        printf("La cola esta vacia\n");
-        return;
-    }
-    printf("Proceso %d en la cola\n",temp->posicion);
-    while(temp->posicion!=numeroPr){
-        temp = temp->siguiente;
-    }
-    printf("El proceso %d, con ID: %d , Nombre: %s , Numero de instrucciones: %d\n",temp->posicion,temp->identificador,temp->nombre,temp->instruccion);
-}
 
 void mostrarCola(Cola *cola) {
     Proceso *temp = cola->inicio;
@@ -74,7 +68,7 @@ void mostrarCola(Cola *cola) {
 
     printf("Procesos %d en la cola:\n",temp->posicion);
     while (temp) {
-        printf("El proceso %d, con ID: %d , Nombre: %s , Numero de instrucciones: %d\n",temp->posicion,temp->identificador,temp->nombre,temp->instruccion);
+        printf("El proceso %d, con ID: %d , Nombre: %s , Numero de instrucciones: %d, Memoria: %d\n",temp->posicion,temp->identificador,temp->nombre,temp->instruccion,temp->espacio);
         temp = temp->siguiente;
     }
 }
@@ -108,7 +102,7 @@ void ejecutarProceso(Cola *cola){ //se ejecuta el proceso actual, el que esta al
 void *procesoSiguiente(Cola *cola, int valor){
     Proceso *aux = cola->inicio;
     if(!cola->inicio || !cola->inicio->siguiente){
-        printf("Solo hay un elemento asi que es el primero y ultimo elemento de la cola\n");
+        printf("Es el ultimo elemento de la cola o no hay elemento\n");
     }else{
         switch(valor){
             case 1:  //se agrega el proceso activo al final de la cola
@@ -127,14 +121,20 @@ void *procesoSiguiente(Cola *cola, int valor){
 }
 
 void simulador(){
-    Cola cola;
+    Cola cola, E_S;
     crearCola(&cola);  //se inicializa la cola de los procesos
+    crearCola(&E_S);  //se inicializa la cola E/S
     printf("Bienvenido al simulador de Procesos\n\n");
-    int numeroProc, procesoSel, x;  //variable donde se guardara el numero de procesos
+    int numeroProc, x, z, espacioGlobal=2048, arreglo[] = {64,128,256,512};  //variable donde se guardara el numero de procesos
     printf("¿Cuantos procesos desea crear?: ");
     scanf("%d",&numeroProc);
     for(int i=1;i<=numeroProc;i++){
-        agregarProceso(&cola,i);
+        agregarProceso(&cola,i,&espacioGlobal,arreglo);
+    }
+    printf("\n¿Cuantos proceso de E/S desea tener?: ");
+    scanf("%d",&z);
+    for(int j=1;j<=z;j++){
+        agregarProceso(&E_S,j,&espacioGlobal,arreglo);
     }
     
     do{ 
@@ -142,7 +142,9 @@ void simulador(){
         printf("1)Ver proceso activo\n");
         printf("2)Ejecutar Proceso actual\n");
         printf("3)Pasar al proceso siguiente (puede colocar el proceso al final de cola, ir a la cola de E/S)\n");
-        printf("4)vizualizar la cola\n");
+        printf("4)Vizualizar la cola\n");
+        printf("5)Ejecutar Entrada y Salida\n");
+        printf("6)Salir");
         scanf("%d",&x);
         switch (x){
         case 1:
@@ -152,17 +154,20 @@ void simulador(){
             ejecutarProceso(&cola);
             break;
         case 3:
-            int y=1 + rand()%(4-1);
+            int y=1 + rand()%(4);
             procesoSiguiente(&cola,1);
             break;
         case 4:
             mostrarCola(&cola);
             break;
+        case 5:
+            //ejecutarEnt_Sa(&E_S,);
+            break;  
         default:
             printf("***Opcion no valida***\n Ingrese una de las que aparece en el menu\n");
             break;
         }
-    }while(x!=5);
+    }while(x!=6);
 
     while(cola.inicio){
         Proceso *proceso_actual=quitarProceso(&cola);
