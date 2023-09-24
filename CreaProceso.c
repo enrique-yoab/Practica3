@@ -95,14 +95,7 @@ void ejecutarProceso(Cola *cola){ //se ejecuta el proceso actual, el que esta al
     }
 }
 
-void procesoSiguiente(Cola *cola){
-    int opc;
-    if(!cola->inicio){
-        printf("\nCola vacia\n");
-    }else{
-        
-    }
-}
+
 
 void main(){
     srand(time(NULL));
@@ -119,7 +112,7 @@ void main(){
     verProcesoActual(&cola);
     ejecutarProceso(&cola);
     verProcesoActual(&cola);
-    procesoSiguiente(&cola);
+
     while(cola.inicio){
         Proceso *proceso_actual=quitarProceso(&cola);
         printf("Proceso Ejecutado %d\n",proceso_actual->posicion);
