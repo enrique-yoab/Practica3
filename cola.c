@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "cola.h"
+#include <time.h>
 
 bool empty(Cola *queue){
     return (queue->head == NULL);
@@ -50,3 +51,7 @@ char pop(Cola *queue){
     }
 }
 
+int generarID(){
+    int num;
+    srand(time(NULL))
+}
