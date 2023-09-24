@@ -1,26 +1,12 @@
-include <stdio.h>
-include <stdlib.h>
-include <string.h>
-
-typedef struct Nodo
-{
-    char nom;
-    int id;
-    int instr;
-    int space;
-    struct Nodo *next;
-} Nodo;
-
-typedef struct Cola{
-    Nodo *head;
-    Nodo *tail;
-} Cola;
+#include <stdio.h>
+#include "cola.h"
 
 bool empty(Cola *queue){
     return (queue->head == NULL);
 }
 
-void push(Cola *queue, char id){
+void push(Cola *queue, char nom){
+    int espacio [4] = {64, 128, 256, 512};
     //creacion y asignacion de memoria para el nuevo nodo
     struct Nodo *nuevo = (Nodo)malloc(sizeof(struct Nodo));
     //Asigna el ID del Proceso
@@ -28,6 +14,7 @@ void push(Cola *queue, char id){
     //Ultimo Nodo, no tiene siguiente
     nuevo->next = NULL;
     if (empty()){
+        //Si esta vacia la cola head y tail apuntan a nuevo
         queue->head = nuevo;
         queue->tail = nuevo;
     }else{
@@ -36,6 +23,11 @@ void push(Cola *queue, char id){
         //Igualamos a tail al elemento nuevo
         queue->tail = nuevo;
     }
+    queue->tail->nom = nom;
+    queue->tail->id = id_process;
+    queue->tail->instr = rand() % 21 + 10;
+    queue->tail->space = espacio[rand() % 4];
+       
 
 }
 
@@ -57,3 +49,4 @@ char pop(Cola *queue){
         return inf;
     }
 }
+
