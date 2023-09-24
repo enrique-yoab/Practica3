@@ -95,6 +95,18 @@ void ejecutarProceso(Cola *cola){ //se ejecuta el proceso actual, el que esta al
     }
 }
 
+void *procesoSiguiente(Cola *cola){
+    if(!cola->inicio){
+        printf("cola vacia proceso siguiente");
+    }else{
+        Proceso *aux = (Proceso*)malloc(sizeof(Proceso));
+        aux = cola->inicio;
+        cola->inicio = cola->inicio->siguiente;
+        cola->final->siguiente = aux;
+        cola->final = aux;
+
+    }
+}
 
 
 void main(){
@@ -108,10 +120,16 @@ void main(){
         agregarProceso(&cola,i);
     }
     visualizarCola(&cola);
+
     ejecutarProceso(&cola);
     verProcesoActual(&cola);
+    procesoSiguiente(&cola);
+    
     ejecutarProceso(&cola);
     verProcesoActual(&cola);
+
+    visualizarCola(&cola);
+
 
     while(cola.inicio){
         Proceso *proceso_actual=quitarProceso(&cola);
