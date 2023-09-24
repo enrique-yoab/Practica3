@@ -74,10 +74,10 @@ void visualizarCola(Cola *cola){
     }
 }
 
-Proceso *verProcesoActual(Cola *cola){ //Se muestra el proceso actual que es el inicio de la cola
+void verProcesoActual(Cola *cola){ //Se muestra el proceso actual que es el inicio de la cola
     int aux; //auxiliar para el conteo de instrucciones
     aux = (cola->inicio->instruccion) - (cola->inicio->instruccionRestante);
-    printf("Proceso %s\n", cola->inicio->nombre);
+    printf("\nProceso %s\n", cola->inicio->nombre);
     printf("ID: %d\n", cola->inicio->identificador);
     printf("Instrucciones Totales: %d\n", cola->inicio->instruccion);
     printf("Instrucciones ejecutadas: %d\n", aux);
@@ -86,22 +86,22 @@ Proceso *verProcesoActual(Cola *cola){ //Se muestra el proceso actual que es el 
 void ejecutarProceso(Cola *cola){ //se ejecuta el proceso actual, el que esta al inicio de la cola
     int aux; //auxiliar para restar instrucciones
     if (!cola->inicio){ //validacion de una cola vacia
-        printf("Cola vacia");
+        printf("\nCola vacia\n");
     }else{
         aux = cola->inicio->instruccionRestante - 5;
         cola->inicio->instruccionRestante = aux; //recuperacion del conteo de instrucciones restantes
-        printf("Proceso %s se ha ejecutado \n", cola->inicio->nombre); //Muestra el nombre del proceso ejecutadp
-        printf("Instrucciones restantes: %d", cola->inicio->instruccionRestante); //Muestra las instrucciones restantes
+        printf("\nProceso %s se ha ejecutado \n", cola->inicio->nombre); //Muestra el nombre del proceso ejecutadp
+        printf("Instrucciones restantes: %d\n", cola->inicio->instruccionRestante); //Muestra las instrucciones restantes
     }
 }
 
 void procesoSiguiente(Cola *cola){
     int opc;
-    Proceso *aux = (Proceso*)malloc(sizeof(Proceso));
-    aux = quitarProceso(cola);
-    //Asignacion de la cola de procesos generales, e/s, o interrupciones
-    printf("Proceso: %s retirado: ", aux->identificador);
-
+    if(!cola->inicio){
+        printf("\nCola vacia\n");
+    }else{
+        
+    }
 }
 
 void main(){
@@ -116,6 +116,9 @@ void main(){
     }
     visualizarCola(&cola);
     ejecutarProceso(&cola);
+    verProcesoActual(&cola);
+    ejecutarProceso(&cola);
+    verProcesoActual(&cola);
     procesoSiguiente(&cola);
     while(cola.inicio){
         Proceso *proceso_actual=quitarProceso(&cola);
