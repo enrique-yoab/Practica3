@@ -63,7 +63,7 @@ void visualizarCola(Cola *cola){
     }
 }
 
-Proceso *verProceso(Cola *cola){ //Se muestra el proceso actual que es el inicio de la cola
+Proceso *verProcesoActual(Cola *cola){ //Se muestra el proceso actual que es el inicio de la cola
     int aux; //auxiliar para el conteo de instrucciones
     aux = (cola->inicio->instruccion) - (cola->inicio->instruccionRestante);
     printf("Proceso %s\n", cola->inicio->nombre);
