@@ -205,11 +205,13 @@ void simulador(){
     for(j=1;j<=z;j++){
         agregarProceso(&E_S,j+i-1,&espacioGlobal,arreglo);
     }
+    j=j+i-1;
     printf("\n¿Cuantos proceso de interrupcion desea tener?: ");
     scanf("%d",&s);
     for(k=1;k<=s;k++){
-        agregarProceso(&interrupcion,k+j,&espacioGlobal,arreglo);
+        agregarProceso(&interrupcion,k+j-1,&espacioGlobal,arreglo);
     }
+
     do{ 
         printf("\nIngrese la opcion deseada\n");
         printf("1)Ver proceso activo\n");
