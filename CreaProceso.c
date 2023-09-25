@@ -166,7 +166,7 @@ void ejecutarProcesoES_IN(Cola *cola,Cola *tmp){ //se ejecutara el proceso inici
         }
     }
 }
-void matarProceso(Cola *cola, Cola *tmp, int *x){ //se ejecutara el proceso inicial de la cola de E/S y de Interrupciones, agregandose en la cola de procesos, el proceso inicial
+void matarProceso(Cola *cola, Cola *tmp, int *x){ //se eliminara el proceso inicial de la cola de procesos y se agregara a la de eliminados
     if (!tmp->inicio){ //validacion de una cola vacia
         printf("La cola de %s esta vacia\n",tmp->nombre);
         return;
