@@ -73,7 +73,7 @@ void mostrarCola(Cola *cola) {
 
     printf("Cola de %s\n",cola->nombre);
     while (temp) {
-        if(temp->posicion==1){
+        if(cola->inicio==temp){
             printf("El proceso %s (Proceso Activo) , ID: %d , Instrucciones pendientes: %d , Memoria: %d,\n",temp->nombre,temp->identificador,temp->instruccionRestante,temp->espacio);
         temp = temp->siguiente;
         }else{
@@ -172,7 +172,6 @@ void matarProceso(Cola *cola, Cola *tmp, int *x){ //se ejecutara el proceso inic
         return;
     }else{
         Proceso *puntero = tmp->inicio;
-        tmp->inicio->siguiente->posicion=tmp->inicio->siguiente->posicion-1;
         tmp->inicio=tmp->inicio->siguiente;
         if(!cola->inicio){   //si la cola no tiene ningun proceso se agrega a la cola
             cola->inicio = puntero;
