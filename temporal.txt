@@ -10,3 +10,32 @@ void visualizarCola(Cola *cola, int numeroPr){
     }
     printf("El proceso %d, con ID: %d , Nombre: %s , Numero de instrucciones: %d\n",temp->posicion,temp->identificador,temp->nombre,temp->instruccion);
 }
+void ejecutarProcesoES(Cola *cola, Cola *tmp) {
+    int aux; 
+
+    if (!cola->inicio) { 
+        printf("\nCola vacia\n");
+    } else {
+        aux = cola->inicio->instruccionRestante - 5;
+        cola->inicio->instruccionRestante = aux;
+        
+        printf("\nProceso %s se ha ejecutado \n", cola->inicio->nombre); 
+        printf("Instrucciones restantes: %d\n", cola->inicio->instruccionRestante);
+        
+        cola->inicio->instruccionEjecutadas += 5;
+
+        if (tmp->inicio) {  // Verificamos que tmp no esté vacío
+            Nodo *nodoTmp = tmp->inicio;       // Tomamos el primer nodo de tmp
+            tmp->inicio = tmp->inicio->siguiente; // Actualizamos el inicio de tmp al siguiente nodo
+            
+            nodoTmp->siguiente = NULL;   // Aseguramos que el nodo movido no apunte a otros nodos
+            
+            if (!cola->inicio) {         // Si cola está vacía, el nodoTmp será el único nodo en cola
+                cola->inicio = nodoTmp;
+            } else {                     // De lo contrario, agregamos nodoTmp al final de cola
+                cola->final->siguiente = nodoTmp;
+            }
+            cola->final = nodoTmp;       // Actualizamos el final de cola al nodoTmp
+        }
+    }
+}

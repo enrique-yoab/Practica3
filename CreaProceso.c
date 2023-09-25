@@ -44,7 +44,7 @@ Proceso *agregarProceso(Cola *cola,int numProceso,int *x,int y[]){   //agrega el
         cola->final->siguiente=nuevo_proceso;
         cola->final=nuevo_proceso;
     }
-    printf("\nLa memoria restante es %d\n",*x);
+    printf("La memoria restante es %d\n",*x);
 }
 
 Proceso *quitarProceso(Cola *cola){      //quita el proceso que se encuentra al inicio
@@ -112,10 +112,34 @@ void *procesoSiguiente(Cola *cola, int valor){
                 cola->final->siguiente=aux;  //inserta el proceso al final de la cola
                 cola->final=aux;       //se actualiza el puntero final;
                 break;
-            case 2:
-                break;
             default:
                 break;
+        }
+    }
+}
+
+void ejecutarProcesoES(Cola *cola,Cola *tmp){ //se ejecuta el proceso actual, el que esta al inicio de la cola
+    int aux; //auxiliar para restar instrucciones
+    if (!tmp->inicio){ //validacion de una cola vacia
+        printf("\nCola vacia\n");
+        return;
+    }else{
+        aux = tmp->inicio->instruccionRestante - 5;
+        tmp->inicio->instruccionRestante = aux; //recuperacion del conteo de instrucciones restantes
+        printf("\nProceso %s se ha ejecutado \n", tmp->inicio->nombre); //Muestra el nombre del proceso ejecutadp
+        printf("Instrucciones restantes: %d\n", tmp->inicio->instruccionRestante); //Muestra las instrucciones restantes
+        tmp->inicio->instruccionEjecutadas=tmp->inicio->instruccionEjecutadas + 5;
+        Proceso *puntero = tmp->inicio;
+        tmp->inicio=tmp->inicio->siguiente;
+
+        if(!cola->inicio){   //si la cola no tiene ningun proceso se agrega a la cola
+            cola->inicio = puntero;
+            cola->final = puntero;
+            puntero->siguiente=NULL;
+        }else{  //si no lo agregamos al final de la cola
+            cola->final->siguiente = puntero;
+            cola->final = puntero; //se actualiza el final de la cola con nodo que se movio
+            puntero->siguiente=NULL;
         }
     }
 }
@@ -144,7 +168,7 @@ void simulador(){
         printf("3)Pasar al proceso siguiente (puede colocar el proceso al final de cola, ir a la cola de E/S)\n");
         printf("4)Vizualizar la cola\n");
         printf("5)Ejecutar Entrada y Salida\n");
-        printf("6)Salir");
+        printf("6)Salir\n");
         scanf("%d",&x);
         switch (x){
         case 1:
@@ -159,21 +183,27 @@ void simulador(){
             break;
         case 4:
             mostrarCola(&cola);
+            mostrarCola(&E_S);
             break;
         case 5:
-            //ejecutarEnt_Sa(&E_S,);
+            ejecutarProcesoES(&cola,&E_S);
             break;  
         default:
-            printf("***Opcion no valida***\n Ingrese una de las que aparece en el menu\n");
             break;
         }
     }while(x!=6);
 
     while(cola.inicio){
         Proceso *proceso_actual=quitarProceso(&cola);
-        printf("Proceso Ejecutado %d\n",proceso_actual->posicion);
+        printf("Proceso Ejecutado %s\n",proceso_actual->nombre);
         free(proceso_actual);
     }
+    while(E_S.inicio){
+        Proceso *proceso_actual=quitarProceso(&E_S);
+        printf("Proceso Ejecutado %s\n",proceso_actual->nombre);
+        free(proceso_actual);
+    }
+    printf("Hasta pronto :)\n");
 }
 
 void main(){
