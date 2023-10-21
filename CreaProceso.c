@@ -234,7 +234,7 @@ void simulador(){
         scanf("%d",&x);
         switch (x){
         case 0:
-            printf("Que proceso desea crer\n1)Proceso X\n2)Entrada/Salida\n3)Interrupcion\nOpcion == ");
+            printf("Que proceso desea crear\n1)Proceso X\n2)Entrada/Salida\n3)Interrupcion\nOpcion == ");
             scanf("%d",&a);
             if(a==1){
                 printf("\n¿Cuantos procesos desea crear?: ");
@@ -300,7 +300,7 @@ void simulador(){
                 if(B[0]=='Y' || B[0]=='S'){
                     while(cola.inicio){
                         Proceso *proceso_actual=quitarProceso(&cola);
-                        printf("\nProceso Ejecutado %s\n",proceso_actual->nombre);
+                        printf("Proceso Ejecutado %s\n",proceso_actual->nombre);
                         free(proceso_actual);
                     }
                     while(E_S.inicio){
